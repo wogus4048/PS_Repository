@@ -14,31 +14,32 @@ public class Main{
     BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
     int[] arr= new int[9];
-    int[] temp = new int[9];
 
     for(int i=0;i<9;i++)
     {
       int temp2  =Integer.parseInt(br.readLine());
       arr[i] = temp2;
-      temp[i] = temp2;
     }
 
-    
-    Arrays.sort(arr);
-    int max = arr[arr.length-1];
+    int max=0;
     int index =0;
 
-    for(int i=0;i<temp.length;i++)
+    for(int i=0;i<9;i++)
     {
-      if(max == temp[i])
-      {
-        index = i+1 ;
-      }
-    }
-    
 
+      if(arr[i] > max)
+      {
+        max =arr[i];
+        index =i+1;
+      }
+
+    }
     bw.write(max+"\n");
     bw.write(index+"\n");
+
+    
+
+
     
   
 
