@@ -21,22 +21,17 @@ public class Main {
 
     Arrays.sort(numbers);
 
-    int[] check = new int[numbers[0] + 1];
+    for (int j = 1; j <= numbers[0]; j++) {
+      int count = 0;
 
-    Arrays.fill(check, 0);
+      for (int k = 0; k < test_case; k++) {
+        if (numbers[k] % j == 0)
+          count++;
 
-    for (int number : numbers) {
-      for (int j = 1; j <= numbers[0]; j++) {
-        if (number % j == 0) {
-          check[j] += 1;
-          // bw.write("현재 j :" + j + "현재 check[j]:" + check[j] + "\n");
-        }
       }
-    }
-    for (int k = 1; k < check.length; k++) {
-      if (check[k] == test_case) {
-        bw.write(k + "\n");
-      }
+      if (count == test_case)
+        bw.write(j + "\n");
+
     }
 
     bw.flush();
