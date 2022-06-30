@@ -15,17 +15,18 @@ public class Main {
     int test_case = Integer.parseInt(br.readLine());
 
     for (int i = 0; i < test_case; i++) {
+      StringBuilder sb = new StringBuilder();
       StringTokenizer st = new StringTokenizer(br.readLine(), " ");
       int number = Integer.parseInt(st.nextToken());
       String a = st.nextToken();
-      String result = "";
+
       for (int j = 0; j < a.length(); j++) {
         for (int k = 0; k < number; k++) {
-          result += a.charAt(j);
+          sb.append(a.charAt(j));
         }
 
       }
-      bw.write(result + "\n");
+      bw.write(sb.toString() + "\n");
     }
 
     bw.flush();
