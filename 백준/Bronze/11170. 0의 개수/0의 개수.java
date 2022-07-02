@@ -1,9 +1,6 @@
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.StringTokenizer;
-
-import javax.swing.text.StyledEditorKit.BoldAction;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -22,7 +19,7 @@ public class Main {
     // bw.write(count + "\n");
     bw.flush();
     bw.close();
-
+    br.close();
   }
 
   static void input() throws IOException {
@@ -31,6 +28,7 @@ public class Main {
   }
 
   static void solve() throws IOException {
+    // bw.write(test_case + "\n");
     for (int i = 0; i < test_case; i++) {
       StringTokenizer st = new StringTokenizer(br.readLine(), " ");
       int a = Integer.parseInt(st.nextToken());
@@ -38,11 +36,17 @@ public class Main {
       count = 0;
 
       for (int j = a; j <= b; j++) {
-        String temp = Integer.toString(j);
-        for (int k = 0; k < temp.length(); k++) {
-          if (temp.charAt(k) == '0') {
+
+        int temp = j;
+        // bw.write(temp + "\n");
+        if (temp == 0) {
+          count++;
+        }
+        while (temp != 0) {
+          if ((temp % 10) == 0) {
             count++;
           }
+          temp = temp / 10;
         }
 
       }
