@@ -20,9 +20,9 @@ public class Main {
     int p2 = Integer.parseInt(st.nextToken());
 
     int min = 10000;
-    for (int i = 0; i < 10000; i++) {
+    for (int i = 0; i < 100; i++) {
 
-      for (int j = 0; j < 10000; j++) {
+      for (int j = 0; j < 100; j++) {
         if (p1 + x * i == p2 + y * j) {
           if (min > p1 + x * i) {
             min = p1 + x * i;
