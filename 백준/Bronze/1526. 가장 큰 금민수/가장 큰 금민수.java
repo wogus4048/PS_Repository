@@ -1,5 +1,8 @@
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+
+import javax.swing.text.StyledEditorKit.BoldAction;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -31,36 +34,22 @@ public class Main {
     String temp = "";
 
     while (n >= 4) {
+      Boolean check = true;
       temp = Integer.toString(n);
+      // bw.write("n:" + n);
+      for (int i = 0; i < temp.length(); i++) {
+        if (temp.charAt(i) != '4' && temp.charAt(i) != '7') {
+          n--;
+          check = false;
+          break;
+        }
 
-      if (temp.contains("0")) {
-        n--;
-        continue;
-      } else if (temp.contains("1")) {
-        n--;
-        continue;
-      } else if (temp.contains("2")) {
-        n--;
-        continue;
-      } else if (temp.contains("3")) {
-        n--;
-        continue;
-      } else if (temp.contains("5")) {
-        n--;
-        continue;
-      } else if (temp.contains("6")) {
-        n--;
-        continue;
-      } else if (temp.contains("8")) {
-        n--;
-        continue;
-      } else if (temp.contains("9")) {
-        n--;
-        continue;
-      } else {
+      }
+      if (check) {
         break;
       }
 
+      // bw.write("n:" + n);
     }
 
   }
