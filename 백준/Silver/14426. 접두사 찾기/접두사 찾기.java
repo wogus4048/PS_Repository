@@ -38,14 +38,36 @@ public class Main {
   }
 
   static void solve() throws IOException {
+    // int count = 0;
+    // for (int i = 0; i < m; i++) {
+    // String input = br.readLine();
+    // for (int j = 0; j < n; j++) {
+    // if (arr1[j].startsWith(input)) {
+    // count++;
+    // break;
+
+    // }
+
+    // }
+    // }
+    // bw.write(count + "\n");
     int count = 0;
     for (int i = 0; i < m; i++) {
+
       String input = br.readLine();
+      boolean check = false;
       for (int j = 0; j < n; j++) {
-        if (arr1[j].startsWith(input)) {
+        for (int k = 0; k < input.length(); k++) {
+          if (input.charAt(k) != arr1[j].charAt(k)) {
+            break;
+          }
+          if (k == input.length() - 1) {
+            check = true;
+          }
+        }
+        if (check == true) {
           count++;
           break;
-
         }
 
       }
