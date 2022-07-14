@@ -1,18 +1,6 @@
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.PriorityQueue;
-import java.util.Queue;
-import java.util.Stack;
 import java.util.StringTokenizer;
-
-import javax.swing.text.StyledEditorKit.BoldAction;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -22,10 +10,8 @@ public class Main {
   static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
   static int n;
   static int s;
-  static boolean[] visited;
   static int[] arr;
-  static int result = 0;
-  static int temp;
+  static int count = 0;
 
   public static void main(String[] args) throws IOException {
 
@@ -43,7 +29,6 @@ public class Main {
     n = Integer.parseInt(st.nextToken());
     s = Integer.parseInt(st.nextToken());
     arr = new int[n];
-    visited = new boolean[n];
 
     StringTokenizer st2 = new StringTokenizer(br.readLine(), " ");
     for (int i = 0; i < n; i++) {
@@ -53,44 +38,30 @@ public class Main {
   }
 
   static void solve() throws IOException {
-    for (int i = 1; i <= n; i++) {
-      Arrays.fill(visited, false);
-      temp = 0;
-      combo(n, i, 0, arr, visited);
+    dfs(0, 0);
+    if (s == 0) // s가 0인 경우, dfs에서 아무런 숫자를 선택하지않았을때 count가 증가하므로
+    {
+      count--; // 해당 값을 뺴주기 위함
+      bw.write(count + "");
+    } else {
+      bw.write(count + "");
     }
-    bw.write(result + "");
 
   }
 
-  static void combo(int n, int r, int start, int[] arr, boolean[] visited) throws IOException {
-    if (r == 0) {
-      if (temp == s) {
-        result++;
-        //print(n, arr, visited);
+  static void dfs(int index, int sum) throws IOException {
+    if (index == n) {
+      if (sum == s) {
+        count++;
         return;
       }
     } else {
-      for (int i = start; i < n; i++) {
-        visited[i] = true;
-        temp += arr[i];
-        combo(n, r - 1, i + 1, arr, visited);
-        temp -= arr[i];
-        visited[i] = false;
-
-      }
+      dfs(index + 1, sum + arr[index]);// 지금 인덱스 값을 선택하는 경우 , 지금 인덱스 값을 sum에 더하고 다음 인덱스로 이동
+      dfs(index + 1, sum);// 지금 인덱스 값을 선택하지 않는 경우, 지금 인덱스 값을 sum에 더하지않고 다음 인덱스로 이동
+      // 위에 2개의 명령문을 실행하는 순간 2가지의 가지가 계속 생긴다 (트리구조가 생성됨)
 
     }
 
-  }
-
-  static void print(int n, int[] arr, boolean[] visited) throws IOException {
-    StringBuilder sb = new StringBuilder();
-    for (int i = 0; i < n; i++) {
-      if (visited[i] == true) {
-        sb.append(arr[i] + " ");
-      }
-    }
-    bw.write(sb.toString() + "\n");
   }
 
   static void test() throws IOException {
