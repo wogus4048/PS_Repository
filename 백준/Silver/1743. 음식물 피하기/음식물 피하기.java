@@ -13,12 +13,12 @@ public class Main {
   static int n;
   static int m;
   static int k;
-  static boolean[][] map;
+  static boolean[][] position;
   static boolean[][] visited;
-  static int ans;
-  static int cnt;
-  static int[] dx = { 0, 1, 0, -1 };
-  static int[] dy = { 1, 0, -1, 0 };
+  static int max = 0;
+  static int count;
+  static int[] d0 = { 0, 1, 0, -1 };
+  static int[] d1 = { 1, 0, -1, 0 };
 
   public static void main(String[] args) throws IOException {
 
@@ -36,14 +36,14 @@ public class Main {
     m = Integer.parseInt(st.nextToken());
     k = Integer.parseInt(st.nextToken());
 
-    map = new boolean[n][m];
+    position = new boolean[n][m];
     visited = new boolean[n][m];
 
     for (int i = 0; i < k; i++) {
       st = new StringTokenizer(br.readLine(), " ");
       int index_0 = Integer.parseInt(st.nextToken());
       int index_1 = Integer.parseInt(st.nextToken());
-      map[index_0 - 1][index_1 - 1] = true;
+      position[index_0 - 1][index_1 - 1] = true;
 
     }
   }
@@ -51,14 +51,14 @@ public class Main {
   static void solve() throws IOException {
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < m; j++) {
-        if (!visited[i][j] && map[i][j]) {
-          cnt = 0;
+        if (!visited[i][j] && position[i][j]) {
+          count = 0;
           bfs(i, j);
-          ans = Math.max(ans, cnt);
+          max = Math.max(max, count);
         }
       }
     }
-    bw.write(ans + "");
+    bw.write(max + "");
 
   }
 
@@ -66,20 +66,20 @@ public class Main {
     Queue<point> q = new LinkedList<>();
     q.add(new point(index0, index1));
     visited[index0][index1] = true;
-    cnt++;
+    count++;
     while (!q.isEmpty()) {
       point temp = q.poll();
 
       for (int k = 0; k < 4; k++) {
-        int xx = temp.x + dx[k];
-        int yy = temp.y + dy[k];
+        int xx = temp.x + d0[k];
+        int yy = temp.y + d1[k];
         if (xx < 0 || yy < 0 || xx >= n || yy >= m) {
           continue;
         }
-        if (!visited[xx][yy] && map[xx][yy]) {
+        if (!visited[xx][yy] && position[xx][yy]) {
           q.add(new point(xx, yy));
           visited[xx][yy] = true;
-          cnt++;
+          count++;
         }
 
       }
