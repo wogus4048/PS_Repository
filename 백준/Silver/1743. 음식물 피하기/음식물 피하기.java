@@ -17,8 +17,8 @@ public class Main {
   static boolean[][] visited;
   static int ans;
   static int cnt;
-  static int[] dx = { -1, 1, 0, 0 };
-  static int[] dy = { 0, 0, -1, 1 };
+  static int[] dx = { 0, 1, 0, -1 };
+  static int[] dy = { 1, 0, -1, 0 };
 
   public static void main(String[] args) throws IOException {
 
@@ -88,15 +88,15 @@ public class Main {
 
   }
 
-  static class point {
-    int x;
-    int y;
+}
 
-    public point(int x, int y) {
-      super();
-      this.x = x;
-      this.y = y;
-    }
+class point {
+  int x;
+  int y;
+
+  public point(int x, int y) {
+    super();
+    this.x = x;
+    this.y = y;
   }
-
 }
