@@ -15,12 +15,13 @@ public class Main {
         char[][] result = new char[input][input];
 
 
-        for(int i=1;i<=input;i++)
+        for(int i=0;i<input;i++)
         {
-            Arrays.fill(result[i-1],input-i,input,'*');
+            for(int j=input-1 ;j>input-2-i; j--)
+            {
+                result[i][j] = '*';
+            }
         }
-
-//        bw.write(Arrays.deepToString(result)+"\n");
 
         for(int i=0;i<input;i++)
         {
@@ -41,9 +42,6 @@ public class Main {
 
         bw.flush();
         bw.close();
-
-
-
 
 
     }
