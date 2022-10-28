@@ -1,51 +1,53 @@
-// import java.io.OutputStreamWriter;
-// import java.io.BufferedWriter;
-// import java.io.IOException;
-// import java.io.InputStreamReader;
-// import java.io.BufferedReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Scanner;
 
-public class Main{
-  public static void main(String[] args)  {
-    // BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-    // BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    Scanner sc = new Scanner(System.in);
-    int number = sc.nextInt();
-    
-    String[][] arr = new String[number][number];
-    
-    for(int i=0;i<number;i++)
-    {
-      Arrays.fill(arr[i],"*");
+
+import java.io.*;
+import java.lang.reflect.Array;
+import java.util.*;
+
+public class Main {
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+
+    public static void main(String[] args) throws IOException {
+
+        int input = Integer.parseInt(br.readLine());
+
+        char[][] result = new char[input][input];
+
+
+        for(int i=1;i<=input;i++)
+        {
+            Arrays.fill(result[i-1],input-i,input,'*');
+        }
+
+//        bw.write(Arrays.deepToString(result)+"\n");
+
+        for(int i=0;i<input;i++)
+        {
+            for(int j =0;j<input;j++)
+            {
+                if(result[i][j] == 0) // 0을 이용해서 비교
+                {
+                    bw.write(" ");
+                }
+                else{
+                    bw.write(result[i][j]);
+                }
+
+            }
+            bw.newLine();
+        }
+
+
+        bw.flush();
+        bw.close();
+
+
+
+
+
     }
 
-    for(int i=0;i<number;i++)
-    {
-      for(int j=0;j<number-i-1;j++)
-      {
-        arr[i][j] = " ";
-      }
-    }
-    print(arr,number);
-
-    sc.close();
 
 
-    // bw.flush();
-    // bw.close();
-
-  }
-  static void print(String[][] arr,int number)
-  {
-    for(int i=0;i<number;i++)
-    {
-      for(int j=0;j<number;j++)
-      {
-        System.out.printf(arr[i][j]);
-      }
-      System.out.println();
-    }
-  }
 }
