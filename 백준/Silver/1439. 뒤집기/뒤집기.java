@@ -1,69 +1,65 @@
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.StringTokenizer;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
+
+
+import java.io.*;
+import java.lang.reflect.Array;
+import java.util.*;
 
 public class Main {
-  public static void main(String[] args) throws IOException {
-    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-    ArrayList<String> al0 = new ArrayList<>();
-    ArrayList<String> al1 = new ArrayList<>();
-    StringBuffer temp0 = new StringBuffer();
-    StringBuffer temp1 = new StringBuffer();
+    public static void main(String[] args) throws IOException {
 
-    String a = br.readLine();
-    for (int i = 0; i < a.length(); i++) {
+        String input = br.readLine();
+        int result1 = 0;
+        int result0 = 0;
 
-      if (a.charAt(i) == '0') {
-        if (temp1.length() != 0) {
-          al1.add(temp1.toString());
-          temp1.setLength(0);
+        Stack<Integer> list = new Stack<>();
+        for (int i = 0; i < input.length(); i++) {
+            int temp = Character.getNumericValue(input.charAt(i));
+            list.push(temp);
         }
-        temp0.append("0");
-      }
+//        bw.write(list+"\n");
 
-      if (a.charAt(i) == '1') {
-        if (temp0.length() != 0) {
-          al0.add(temp0.toString());
-          temp0.setLength(0);
+        int ex = -1;
+
+        while(!list.isEmpty())
+        {
+            int current = list.pop();
+            if(ex != -1)
+            {
+                if (current == ex) {
+                    continue;
+                }
+            }
+            if(current == 0)
+            {
+                result0++;
+                ex = current;
+            }
+            else {
+                result1++;
+                ex = current;
+            }
         }
-        temp1.append("1");
-      }
+
+        if(result0>result1)
+        {
+            bw.write(result1+"");
+        }
+        else{
+            bw.write(result0+"");
+        }
+
+
+
+
+        bw.flush();
+        bw.close();
+
 
     }
-    if (temp0.length() != 0) {
-      al0.add(temp0.toString());
-    } else if (temp1.length() != 0) {
-      al1.add(temp1.toString());
-    }
 
-    // Iterator iter0 = al0.iterator();
-    // Iterator iter1 = al1.iterator();
-    // while (iter0.hasNext()) {
-    // bw.write("0인부분:" + iter0.next() + "\n");
-    // }
-    // while (iter1.hasNext()) {
-    // bw.write("1인부분:" + iter1.next() + "\n");
-    // }
 
-    int result = 0;
-    if (al0.size() == 0 | al1.size() == 0) {
-      result = 0;
-    } else {
-      result = Math.min(al0.size(), al1.size());
-    }
-
-    bw.write(result + "\n");
-
-    bw.flush();
-    bw.close();
-  }
 
 }
