@@ -1,41 +1,44 @@
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.StringTokenizer;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
+import java.io.*;
+import java.lang.reflect.Array;
+import java.util.*;
+import java.util.Map.Entry;
 
 public class Main {
-  public static void main(String[] args) throws IOException {
-    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-    int a = Integer.parseInt(br.readLine());
-    int b = 0;
-    loop: for (int i = 1; i < a; i++) {
 
-      int result = i;
-      String[] temp = Integer.toString(i).split("");
-      // bw.write(Arrays.toString(temp) + "\n");
+    public static void main(String[] args) throws IOException {
+        int n = Integer.parseInt(br.readLine());
 
-      for (int j = 0; j < temp.length; j++) {
-        result += Integer.parseInt(temp[j]);
-        // bw.write(result + "\n");
-      }
-      if (result == a) {
-        b = i;
-        break loop;
-      }
+        for (int i = 1; i <= n; i++) {
+            if (check(n, i)) {
+                return;
+            }
+        }
+        bw.write(0+"");
+
+        bw.flush();
+        bw.close();
 
     }
-    bw.write(b + "\n");
 
-    bw.flush();
-    bw.close();
-  }
+    public static boolean check(int n, int number) throws IOException{
+        char[] numberChar = Integer.toString(number).toCharArray();
+        int sum =number;
+
+        for (char currentNumber : numberChar) {
+            sum += Character.getNumericValue(currentNumber);
+        }
+        if (sum == n) {
+            bw.write(number + "");
+            bw.flush();
+            return true;
+        }
+        return false;
+
+    }
+
+
 
 }
