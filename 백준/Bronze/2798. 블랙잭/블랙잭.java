@@ -7,46 +7,41 @@ public class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-    static int result=0;
 
     public static void main(String[] args) throws IOException {
         String[] nm = br.readLine().split(" ");
         int n = Integer.parseInt(nm[0]);
         int m = Integer.parseInt(nm[1]);
-        boolean[] visited = new boolean[n];
 
         StringTokenizer st = new StringTokenizer(br.readLine(), " ");
         int[] numbers = new int[n];
         for (int i = 0; i < n; i++) {
             numbers[i] = Integer.parseInt(st.nextToken());
         }
+        int max =0;
+        int sum =0;
+        for (int i = 0; i < n; i++) {
+            sum += numbers[i];
+            for (int j = i+1; j < n; j++) {
+                sum += numbers[j];
+                for (int k = j+1; k < n; k++) {
+                    sum += numbers[k];
+                    if (sum > max && sum <= m) {
+                        max = sum;
+                    }
+                    sum -= numbers[k];
+                }
+                sum -= numbers[j];
+            }
+            sum -= numbers[i];
+        }
 
+        bw.write(max+"");
 
-        combination(n, m, 0, 0, numbers,visited);
-        bw.write(result+"");
 
         bw.flush();
         bw.close();
 
     }
 
-    public static void combination(int n, int m,int count,int sum,int[] numbers,boolean[] visitied) {
-        if (count == 3) {
-            if (m >= sum && sum > result) {
-                result = sum;
-            }
-            return;
-        }
-
-        for (int i = 0; i < n; i++) {
-            if(!visitied[i])
-            {
-                visitied[i] = true;
-                combination(n, m, count+1, sum + numbers[i], numbers, visitied);
-                visitied[i] = false;
-            }
-        }
-
-    }
-    
 }
