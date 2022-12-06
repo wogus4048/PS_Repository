@@ -15,19 +15,19 @@ public class Main {
         int m = Integer.parseInt(input[1]);
 
         Map<String, Integer> map = new HashMap<>();
-        Map<Integer, String> map2 = new HashMap<>();
+        String[] indexPoket = new String[n+1];
 
         for (int i = 1; i <= n; i++) {
             String inputPoket = br.readLine();
             map.put(inputPoket, i);
-            map2.put(i,inputPoket);
+            indexPoket[i] = inputPoket;
         }
         for (int i = 0; i < m; i++) {
             String examString = br.readLine();
             if (map.containsKey(examString)) {
                 bw.write(map.get(examString) + "\n");
             }else{
-                bw.write(map2.get(Integer.parseInt(examString))+"\n");
+                bw.write(indexPoket[Integer.parseInt(examString)] + "\n");
             }
 
         }
