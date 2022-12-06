@@ -1,52 +1,52 @@
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.StringTokenizer;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
+import java.io.*;
+import java.lang.reflect.Array;
+import java.util.*;
+import java.util.Map.Entry;
 
 public class Main {
-  public static void main(String[] args) throws IOException {
-    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-    StringTokenizer st = new StringTokenizer(br.readLine(), " ");
-    int n = Integer.parseInt(st.nextToken());
-    int m = Integer.parseInt(st.nextToken());
-    StringTokenizer st2 = new StringTokenizer(br.readLine(), " ");
-    int[] arr = new int[n];
-    for (int a = 0; a < n; a++) {
-      arr[a] = Integer.parseInt(st2.nextToken());
-    }
+    static int result=0;
 
-    int min = m;
-    int result = 0;
-    int temp = 0;
+    public static void main(String[] args) throws IOException {
+        String[] nm = br.readLine().split(" ");
+        int n = Integer.parseInt(nm[0]);
+        int m = Integer.parseInt(nm[1]);
+        boolean[] visited = new boolean[n];
 
-    for (int i = 0; i <= n - 3; i++) {
-      // bw.write("i:" + i + "\n");
-      for (int j = i + 1; j <= n - 2; j++) {
-        // bw.write("j:" + j + "\n");
-        for (int k = j + 1; k <= n - 1; k++) {
-          // bw.write(arr[i] + " " + arr[j] + " " + arr[k] + "\n");
-          temp = m - (arr[i] + arr[j] + arr[k]);
-          // bw.write("k:" + k + "\n" + "temp:" + temp + "min" + min + "\n");
-          if (temp >= 0 && temp < min) {
-            min = temp;
-            result = arr[i] + arr[j] + arr[k];
-            // bw.write("m과 3값의합의 차이 최소값 :" + min + "현재 그 합:" + result + "\n");
-          }
-
+        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+        int[] numbers = new int[n];
+        for (int i = 0; i < n; i++) {
+            numbers[i] = Integer.parseInt(st.nextToken());
         }
-      }
+
+
+        combination(n, m, 0, 0, numbers,visited);
+        bw.write(result+"");
+
+        bw.flush();
+        bw.close();
+
     }
-    bw.write(result + "\n");
 
-    bw.flush();
-    bw.close();
-  }
+    public static void combination(int n, int m,int count,int sum,int[] numbers,boolean[] visitied) {
+        if (count == 3) {
+            if (m >= sum && sum > result) {
+                result = sum;
+            }
+            return;
+        }
 
+        for (int i = 0; i < n; i++) {
+            if(!visitied[i])
+            {
+                visitied[i] = true;
+                combination(n, m, count+1, sum + numbers[i], numbers, visitied);
+                visitied[i] = false;
+            }
+        }
+
+    }
+    
 }
