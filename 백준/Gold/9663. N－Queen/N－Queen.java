@@ -1,120 +1,122 @@
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
+import java.io.*;
+import java.lang.reflect.Array;
+import java.math.BigInteger;
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.StringTokenizer;
 
 public class Main {
-  static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-  static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-  static int N, count;
-  static boolean[][] attack_zone;
-  static boolean[][] queen;
 
-  public static void main(String[] args) throws IOException {
-    input();
-    solve();
-    bw.flush();
-    bw.close();
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-  }
+    static int result ;
+    public static void main(String[] args) throws IOException {
 
-  public static void input() throws IOException {
-    N = Integer.parseInt(br.readLine());
-    count = 0;
-    attack_zone = new boolean[N][N];
-    queen = new boolean[N][N];
+        int n = Integer.parseInt(br.readLine());
+        int[] queenPosition = new int[n];
+        boolean[][] atackRange = new boolean[n][n];
 
-  }
+        dfs(n, atackRange, queenPosition, 0);
+        bw.write(result+"");
 
-  public static void solve() throws IOException {
-    dfs(0);
-    bw.write(count + "\n");
-  }
 
-  public static void dfs(int depth) throws IOException {
-    int current_depth = depth;
-    // for (boolean[] a : attack_zone) {
-    // bw.write(Arrays.toString(a) + "\n");
-    // }
-    // bw.write("\n");
-    if (current_depth == N) // N-1 까지 실행되서 N으로 넘어왔을때 count 증가 및 종료
-    {
-      count++;
-      return;
+
+        bw.flush();
+        bw.close();
+
     }
-
-    for (int i = 0; i < N; i++) {
-      if (!attack_zone[depth][i]) {
-        queen[depth][i] = true; // 퀸 위치 찍고
-
-        attack_marking(i, depth); // 공격범위 체크해주고
-
-        dfs(depth + 1); // dfs로 다음 depth로 이동
-
-        queen[depth][i] = false;
-        // dfs가 끝나 돌아왔다면 진행한 부분은 다시 원상태로 돌려놔야한다.
-        init_attackzone();
-      }
-    }
-
-  }
-
-  public static void attack_marking(int position, int depth) throws IOException {
-    // 해당 위치의 아래(+자기자리) 왼쪽 대각선 ,오른쪽 대각선을 공격존으로 표시해준다.
-    for (int i = depth; i < N; i++) {// 퀸을 놓은 자리 + 그 아래쪽 공격존 표시
-      attack_zone[i][position] = true;
-    }
-
-    int current_i = depth;
-    int current_j = position;
-
-    while (true) {
-      current_i = current_i + 1;
-      current_j = current_j - 1;
-
-      if (current_i < N && current_j >= 0) {// 왼쪽아래로 갔을때 범위를 넘어가지않는지 체크
-        attack_zone[current_i][current_j] = true;
-      } else {
-        break;
-      }
-    }
-
-    current_i = depth;
-    current_j = position;
-
-    while (true) {
-      current_i = current_i + 1;
-      current_j = current_j + 1;
-
-      if (current_i < N && current_j < N) {// 왼쪽아래로 갔을때 범위를 넘어가지않는지 체크
-        attack_zone[current_i][current_j] = true;
-      } else {
-        break;
-      }
-    }
-
-  }
-
-  public static void init_attackzone() throws IOException {
-    for (int i = 0; i < N; i++) {
-      for (int j = 0; j < N; j++) {
-        attack_zone[i][j] = false;
-      }
-    }
-    for (int i = 0; i < N; i++) {
-      for (int j = 0; j < N; j++) {
-        if (queen[i][j]) {
-          attack_marking(j, i);
+    public static void dfs(int n,boolean[][] atackRange,int[] queenPosition,int i) throws IOException{
+        if (i == n) { //마지막줄까지 이동했을때
+//            for (int cu : queenPosition) {
+//                bw.write(cu + " ");
+//            }
+//            bw.newLine();
+            result ++;
+            return;
         }
-      }
+
+        for (int a = 0; a < n; a++) {
+            if (!atackRange[i][a]) { //만약 공격범위가 아니라면
+                queenPosition[i] = a; //해당 위치에 퀸을 놓고 , 퀸의 위치를 저장한다.
+
+                //방금놓은 퀸의 공격범위를 추가
+                atack(atackRange, i, a);
+
+                dfs(n, atackRange, queenPosition, i + 1); // 공격범위업데이트,퀸 위치 추가 , 다음열로 이동 시켜서 dfs호출
+
+                queenPosition[i] = -1; //퀸 위치 초기화 (이 자리에 안놓은 경우 생성)
+
+                //공격범위 체크했던거 되돌려놓기
+                cleanAtackRange(atackRange, queenPosition,i, a);
+
+            }
+        }
+        // 다 돌았는데 퀸을 놓을 수 있는 자리가 없어서 퀸의 위치가 0이라면 (해당 열이 모두 공격범위라서 못놓았을때)
+        if (queenPosition[i] == -1) {
+            return; //더 보지않고 return
+        }
+
+
     }
 
-  }
+
+
+
+
+    public static void atack(boolean[][] atackRange,int i,int j)throws IOException {
+        int n = atackRange.length; // 길이
+
+        // 자기자신위치 , 왼쪽대각선아래, 아래, 오른쪽 대각선아래를 공격범위로 채워준다.
+        atackRange[i][j] = true; //자기자신
+
+        int nextI = i;
+        int nextJ = j;
+        //왼쪽 대각선 아래
+        while (true) {
+            nextI = nextI + 1;
+            nextJ = nextJ - 1;
+            if (nextI >= n || nextJ < 0) {
+                break;
+            }
+            atackRange[nextI][nextJ] = true;
+        }
+        nextI = i;
+        nextJ = j;
+        //오른쪽 대각선 아래
+        while (true) {
+            nextI = nextI + 1;
+            nextJ = nextJ + 1;
+            if (nextI >= n || nextJ >= n) {
+                break;
+            }
+            atackRange[nextI][nextJ] = true;
+        }
+        nextI = i;
+        nextJ = j;
+        //아래
+        while (true) {
+            nextI = nextI + 1;
+            if (nextI >= n) {
+                break;
+            }
+            atackRange[nextI][j] = true;
+        }
+    }
+    public static void cleanAtackRange(boolean[][] atackRange,int[] queenPosition,int i,int j) throws IOException{
+        int n = atackRange.length;
+        //전부 false로 초기화 시키고
+        for (int a = 0; a < n; a++) {
+            for (int b = 0; b < n; b++) {
+                atackRange[a][b] = false;
+            }
+        }
+        // 이전 퀸 위치를 받아 다시 공격범위 설정
+        for (int c = 0; c < n; c++) {
+            if (queenPosition[c] != -1) { //-1로 초기화하기전 퀸 위치에 관하여 공격범위 설정
+                atack(atackRange, c, queenPosition[c]);
+            }
+        }
+    }
+
+
 
 }
