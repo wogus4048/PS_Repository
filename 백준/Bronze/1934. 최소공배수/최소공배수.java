@@ -1,7 +1,4 @@
 import java.io.*;
-import java.lang.reflect.Array;
-import java.util.*;
-import java.util.Map.Entry;
 
 public class Main {
 
@@ -13,29 +10,29 @@ public class Main {
         int n = Integer.parseInt(br.readLine());
         for (int i = 0; i < n; i++) {
             String[] input = br.readLine().split(" ");
-            int num1 = Integer.parseInt(input[0]);
-            int num2 = Integer.parseInt(input[1]);
+            int a = Integer.parseInt(input[0]) ;
+            int b = Integer.parseInt(input[1]);
 
-            bw.write(lcm(num1, num2)+"\n");
+            bw.write(lcm(a, b)+"");
+            bw.newLine();
         }
-
+      
 
         bw.flush();
         bw.close();
 
     }
 
-    //최대공약수
     public static int gcd(int a, int b) {
         if (b == 0) {
             return a;
         }
-        return gcd(b, a % b);
+        return gcd(b, a % b); //재귀적으로 실행되면서 마지막에 최대공약수를 가지고 리턴될것이니까 return을 붙여준다.
     }
 
-    //최소공배수
     public static int lcm(int a, int b) {
-        return a * b / gcd(a, b);
+        return (a * b) / gcd(a, b);
     }
+
 
 }
