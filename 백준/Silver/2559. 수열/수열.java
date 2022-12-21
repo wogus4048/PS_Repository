@@ -1,4 +1,6 @@
 import java.io.*;
+import java.util.Arrays;
+
 
 public class Main {
 
@@ -7,16 +9,10 @@ public class Main {
 
 
     /*
-    다이나믹 프로그래밍을 이용한 연속합문제에서 몇개를 연속해서 더할지를 알려준 문제같다고 생각했지만
-    다들 이중반복문으로 풀이했다.
-    그냥 n,k의 최댓값인 10만떄문에 연산횟수가 10만 *10만일거라고 생각했다.
-    하지만 (n-k) * k 만큼의 연산이므로 최대연산수는 대략 10만회정도이다.
-    문제풀기전 어떤 로직으로 해야할지, 그 로직의 최악의 연산횟수는 어떻게 될지 제대로 생각해야겠다.
      */
-
     static int n;
     static int k;
-    static int[] numbers;
+    static int[] dp;
     static int max = Integer.MIN_VALUE;
 
 
@@ -34,25 +30,36 @@ public class Main {
         String[] input = br.readLine().split(" ");
         n = Integer.parseInt(input[0]);
         k = Integer.parseInt(input[1]);
-        numbers = new int[n];
-        input = br.readLine().split(" ");
-        for (int i = 0; i < n; i++) {
-            numbers[i] = Integer.parseInt(input[i]);
-        }
-
+        dp = new int[n];
     }
 
     static void solve() throws IOException {
-        for (int i = 0; i <= n - k; i++) {
-            int sum = 0;
-            for (int j = i; j < i+k; j++) {
-                sum += numbers[j];
+        memoization();
+
+        //온도 최대값 구하기
+        for (int i = k - 1; i < n; i++) {
+            if (i - k < 0) {
+                int temper = dp[i];
+                max = Math.max(max, temper);
+            } else {
+                int temper = dp[i] - dp[i - k];
+                max = Math.max(max, temper);
             }
-            max = Math.max(max, sum);
+
         }
         bw.write(max+"");
 
+
+
     }
 
+    static void memoization() throws  IOException{
+        //dp 배열 채우기 -> 누적합 채우기
+        String[] input = br.readLine().split(" ");
+        dp[0] = Integer.parseInt(input[0]);
+        for (int i = 1; i < n; i++) {
+            dp[i] = dp[i - 1] + Integer.parseInt(input[i]);
+        }
+    }
 
 }
