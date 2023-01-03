@@ -68,22 +68,23 @@ public class Main {
             int currentPosition = current[0];
             int time = current[1];
 
-            visited[currentPosition] = true;
-
             if (currentPosition == k) {
                 answer = Math.min(answer, time);
             }
 
             if (currentPosition *2  <= maxRange && !visited[currentPosition*2] ) {
+                visited[currentPosition *2] = true;
                 q.add(new int[]{currentPosition*2, time});
             }
-
-            if (currentPosition + 1 <= maxRange && !visited[currentPosition+1] ) {
-                q.add(new int[]{currentPosition+1, time + 1});
-            }
             if (currentPosition - 1 >= 0 && !visited[currentPosition-1] ) {
+                visited[currentPosition - 1] = true;
                 q.add(new int[]{currentPosition-1, time + 1});
             }
+            if (currentPosition + 1 <= maxRange && !visited[currentPosition+1] ) {
+                visited[currentPosition + 1] = true;
+                q.add(new int[]{currentPosition+1, time + 1});
+            }
+
 
 
         }
