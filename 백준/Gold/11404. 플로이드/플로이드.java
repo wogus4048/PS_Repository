@@ -1,3 +1,4 @@
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,13 +11,9 @@ public class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
     static int v, e;
-    static long[] cost; // 10만개 간선 * 10만의 비용 => 최대 비용 10만^2이므로 long
-    static List<List<Node>> graph;
-    static final int maxRange = 100000 * 100000;
-
-
+    static long[][] cost;
+    static final long maxRange = 100000L * 100000;
     /*
-    최단비용 해결문제이다. 가중치가 서로 다르고, 양수이므로 다익스트라를 사용한다.
      */
 
     public static void main(String[] args) throws IOException {
@@ -31,71 +28,54 @@ public class Main {
     static void input() throws IOException {
         v = Integer.parseInt(br.readLine());
         e = Integer.parseInt(br.readLine());
-        cost = new long[v+1];
-        Arrays.fill(cost, maxRange + 1);
-        graph = new ArrayList<>();
-        for (int i = 0; i < v + 1; i++) {
-            graph.add(new ArrayList<>());
+        cost =new long[v+1][v+1];
+        //인접행렬 초기화
+        for (int i = 1; i <= v; i++) {
+            for (int j = 1; j <= v; j++) {
+                if (i == j) {
+                    cost[i][j] = 0;
+                } else {
+                    cost[i][j] = maxRange + 1; //최대값으로 초기화
+                }
+            }
         }
+        //입력된 간선 정보를 이용하여 인접행렬 초기화
         for (int i = 0; i < e; i++) {
             int[] edgeInfo = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt)
                 .toArray();
-            graph.get(edgeInfo[0]).add(new Node(edgeInfo[1], edgeInfo[2]));
+            //두 정점사이에 많은 간선이 있을 수 있다. 그러면 들어오는 간선 정보중 가장 작은값을 인접행렬에 저장하기 위함.
+            cost[edgeInfo[0]][edgeInfo[1]] = Math.min(cost[edgeInfo[0]][edgeInfo[1]], edgeInfo[2]);
         }
-
 
     }
 
     static void solve() throws IOException {
+        floyd();
         for (int i = 1; i <= v; i++) {
-            dijkstra(i);
             for (int j = 1; j <= v; j++) {
-                if (i == j || cost[j] == maxRange+1) {
+                if (cost[i][j] == maxRange + 1) {
                     bw.write(0 + " ");
                 } else {
-                    bw.write(cost[j]+" ");
+                    bw.write(cost[i][j]+" ");
                 }
             }
             bw.newLine();
-            Arrays.fill(cost,maxRange+1);
         }
 
     }
 
-    static void dijkstra(int start) {
-        PriorityQueue<Node> pq = new PriorityQueue<>((o1, o2) -> (int) (o1.cost - o2.cost));
-        cost[start] = 0;
-        pq.add(new Node(start, 0));
-
-        while (!pq.isEmpty()) {
-            Node pqNode = pq.poll();
-
-            if (cost[pqNode.index] < pqNode.cost) {
-                continue;
-            }
-
-            for (Node adjNode : graph.get(pqNode.index)) {
-                if (cost[adjNode.index] > cost[pqNode.index] + adjNode.cost) {
-                    cost[adjNode.index] = cost[pqNode.index] + adjNode.cost;
-                    pq.add(new Node(adjNode.index, cost[adjNode.index]));
+    static void floyd() {
+        //각각 모든 정점을 경유해서 가는 경우를 생각해본다.
+        for (int i = 1; i <= v; i++) {
+            // j->k를 갈때 cost[j][k]의 비용이 더 작을지 아니면 j->i  i->k 처럼 i 노드를 경유해서 가는것이 더 비용이 적은지 체크하고, 갱신해준다.
+            for (int j = 1; j <= v; j++) {
+                for (int k = 1; k <= v; k++) {
+                    if (cost[j][k] > cost[j][i] + cost[i][k]) {
+                        cost[j][k] = cost[j][i] + cost[i][k];
+                    }
                 }
             }
-
-        }
-
-    }
-
-
-    static class Node {
-
-        int index;
-        long cost;
-
-        public Node(int index, long cost) {
-            this.index = index;
-            this.cost = cost;
         }
     }
-
 
 }
