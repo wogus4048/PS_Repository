@@ -1,73 +1,40 @@
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.StringTokenizer;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
+import java.io.*;
+import java.util.Arrays;
 
 
-public class Main{
-  public static void main(String[] args) throws IOException{
-    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-    StringTokenizer st = new StringTokenizer(br.readLine()," ");
-    int x = Integer.parseInt(st.nextToken());
-    int y = Integer.parseInt(st.nextToken());
-    int w = Integer.parseInt(st.nextToken());
-    int h = Integer.parseInt(st.nextToken());
+public class Main {
 
-    int temp_x = 0;
-    int temp_y = 0;
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
+    /*
+     */
 
-    if(w-x < x-0 )
-    {
-      temp_x = w-x;
-      if(h -y < y-0)
-      {
-        temp_y = h-y;
-      }
-      else
-      { 
-        temp_y = y-0;
-      }
+    public static void main(String[] args) throws IOException {
+        input();
+        solve();
 
-      if(temp_x < temp_y)
-      {
-        System.out.println(temp_x);
-      }
-      else  System.out.println(temp_y);
-
+        bw.flush();
+        bw.close();
 
     }
-    else
-    {
-      temp_x = x-0;
-      if(h-y < y-0)
-      {
-        temp_y = h-y;
-      }
-      else
-      {
-        temp_y = y-0;
-      }
 
-      if(temp_x < temp_y)
-      {
-        System.out.println(temp_x);
-      }
-      else  System.out.println(temp_y);
-
+    static void input() throws IOException {
 
     }
-    
+    static void solve() throws IOException {
+        int[] input = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
+        int x = input[0];
+        int y = input[1];
+        int w = input[2];
+        int h = input[3];
 
-    bw.flush();
-    bw.close();
+        int xMin = (Math.abs(x - w) > Math.abs(x)) ? x : Math.abs((x - w));
+        int yMin = (Math.abs(y - h) > Math.abs(y)) ? y : Math.abs((y - h));
 
-    
-  }
+        int anwer = Math.min(xMin, yMin);
+        System.out.println(anwer);
 
-
+    }
 }
