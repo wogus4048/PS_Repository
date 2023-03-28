@@ -13,11 +13,11 @@ class Solution {
         }
         System.out.println(map);
         
-        List<Integer> valueList = new ArrayList<>(map.values());
-        //values()는 Collection객체로 리턴되므로 List에 담아서 list로 사용한다.
+//         List<Integer> valueList = new ArrayList<>(map.values());
+//         //values()는 Collection객체로 리턴되므로 List에 담아서 list로 사용한다.
 
         
-        for(int count : valueList)
+        for(int count : map.values())
         {
             answer *= (count+1);
         }
