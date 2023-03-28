@@ -1,51 +1,37 @@
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
-public class Solution {
-
-    public static String solution(String[] participant, String[] completion) {
+class Solution {
+    public String solution(String[] participant, String[] completion) {
         String answer = "";
-//        List<String> par = Arrays.asList(participant);
-//        List<String> com = Arrays.asList(completion);
-//
-//        Collections.sort(par);  // Collections.sort는 최악 nlogn     // Arrays.sort는 최악 n^2  //둘다 통과는됨
-//        Collections.sort(com);
-//
-//        for(int i=0;i< par.size()-1;i++)
-//        {
-//            if(!par.get(i).equals(com.get(i)))
-//            {
-//                return par.get(i);
-//            }
-//        }
-//        answer = par.get(par.size()-1);
-
-        Collections.sort(Arrays.asList(participant));
-        Collections.sort(Arrays.asList(completion));
-
-        for(int i=0;i< participant.length-1;i++)
+        
+        if(participant.length == 1)
         {
-            if( !participant[i].equals(completion[i]))
+            return participant[0];
+        }
+        
+        
+        Arrays.sort(participant);
+        Arrays.sort(completion);
+        // System.out.println(Arrays.toString(participant));
+        // System.out.println(Arrays.toString(completion));
+        
+        for(int i=0; i<completion.length;i++)
+        {
+            if(!participant[i].equals(completion[i]))
             {
                 return participant[i];
             }
         }
-        answer = participant[participant.length-1];
-
-
-
-        return answer;
+        
+        return participant[participant.length-1];
     }
-
-    public static void main(String[] args) {
-        String[] participant = {"mislav", "stanko", "mislav", "ana"};
-        String[] completion = {"stanko", "ana", "mislav"};
-
-        System.out.println(solution(participant,completion));
-
-
-    }
-
-
 }
+/*
+1.
+참가자,완주자 명단을 정렬
+참가자명단을 반복문을 돌면서 같은 인덱스에 완주자 명단을 보고 이름이 같은지 체크 아니면 완주 못한사람 
+
+2.
+Map 2개만들어서 각각 참가자 ,완주자 정리
+참가자 Map을 돌면서 해당 키가 존재하는지, 존재하면 value의 값이 같은지 체크 아니면 완주 못한사람 
+*/
