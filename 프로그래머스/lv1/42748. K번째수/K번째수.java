@@ -2,7 +2,7 @@ import java.util.*;
 
 
 class Solution {
-    public int[] solution(int[] array, int[][] commands) {
+    public List<Integer> solution(int[] array, int[][] commands) {
         int[] answer = new int[commands.length];
         List<Integer> answerList = new ArrayList<>();
         
@@ -31,6 +31,6 @@ class Solution {
             answer[i] = answerList.get(i);
         }
         
-        return answer;
+        return answerList;
     }
 }
