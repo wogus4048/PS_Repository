@@ -6,7 +6,7 @@ class Solution {
         
         for(int i=0;i<prices.length;i++)
         {
-            int max =0 ;
+            int count = 0 ;
             
             if( i == prices.length-1)
             {
@@ -16,17 +16,14 @@ class Solution {
             
             for(int j=i+1; j<prices.length;j++)
             {
+                count++;
                 if(prices[i] > prices[j])
                 {
-                    max = j;
                     break;
                 }
+
             }
-            if(max == 0 )
-            {
-                max = prices.length-1;
-            }
-            answer[i] = max-i;
+            answer[i] = count;
             
         }
         
