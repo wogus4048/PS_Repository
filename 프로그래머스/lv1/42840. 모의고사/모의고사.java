@@ -43,29 +43,14 @@ class Solution {
         if(answer1 == maxcount)
         {
             r.add(1);
-            if(answer2 == maxcount)
-            {
-                r.add(2);
-            }
-           if(answer3 == maxcount)
-            {
-                r.add(3);
-            }
-            return r;
         }
         if(answer2 == maxcount)
         {
             r.add(2);
-            if(answer3 == maxcount)
-            {
-                r.add(3);
-            }
-            return r;
         }
         if(answer3 == maxcount)
         {
             r.add(3);
-            return r;
         }
         return r;
         
