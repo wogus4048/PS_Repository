@@ -1,65 +1,53 @@
-
-
 import java.util.*;
 
-public class Solution {
-    public static int[] solution(String[] operations) {
+class Solution {
+    public int[] solution(String[] operations) {
         int[] answer = {};
-        List<Integer> a = new ArrayList<>();
-
-        for(int i=0;i<operations.length;i++)
+        
+        PriorityQueue<Integer> maxQ = new PriorityQueue<>(Collections.reverseOrder());
+        PriorityQueue<Integer> minQ = new PriorityQueue<>();
+        for(String oper : operations)
         {
-            StringTokenizer st = new StringTokenizer(operations[i]);
-
-            String operation = st.nextToken();
-            int number = Integer.parseInt(st.nextToken());
-
-            if(operation.equals("I"))
-            {
-                a.add(number);
+            String[] op = oper.split(" ");
+            if(op[0].equals("I")){
+                maxQ.add(Integer.parseInt(op[1]));
             }
             else{
-                if(a.isEmpty())
+                if(op[1].equals("1"))
                 {
-                    continue;
+                    maxQ.poll();
                 }
                 else{
-                    if(number == 1)
-                    {
-                        a.remove(a.size()-1);
-                    }
-                    else{
-                        a.remove(0);
-
-                    }
+                    minQ.addAll(maxQ);
+                    minQ.poll();
+                    maxQ.clear();
+                    maxQ.addAll(minQ);
+                    minQ.clear();
                 }
-
-
+                
             }
-            Collections.sort(a);
-
-
+        
         }
-        if(a.isEmpty())
+        
+        if(maxQ.size()>=2)
+        {
+            int max = maxQ.poll();
+            minQ.addAll(maxQ);
+            int min = minQ.poll();
+            return new int[] {max,min};
+            
+        }
+        else if(maxQ.size() ==0 )
         {
             return new int[] {0,0};
         }
-        else{
-            return new int[] {a.get(a.size()-1) , a.get(0)};
-        }
-
-
-
-
-
-
-
+        
+        
+        return answer;
     }
-
-    public static void main(String[] args) {
-        String[] operation = {"I -45", "I 653", "D 1", "I -642", "I 45", "I 97", "D 1", "D -1", "I 333"};
-        System.out.println(Arrays.toString(solution(operation)) ) ;
-    }
-
-
 }
+
+/*
+
+
+*/
