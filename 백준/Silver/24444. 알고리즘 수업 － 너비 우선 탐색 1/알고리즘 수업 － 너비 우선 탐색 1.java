@@ -1,3 +1,5 @@
+
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -5,29 +7,18 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import java.util.Scanner;
-
 
 public class Main {
 
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    static int n,m,r;
 
-
-    /*
-     */
     static List<Integer>[] graph;
-    static Scanner sc = new Scanner(System.in);
-    static int n,m,start;
-
     static boolean[] visited;
-
-    static int[] rank;
-    static int rankCount =1;
-
-
+    static Integer[] result;
+    static int count =1;
     public static void main(String[] args) throws IOException {
-
         input();
         solve();
 
@@ -37,54 +28,79 @@ public class Main {
     }
 
     static void input() throws IOException {
-        n = sc.nextInt();
-        m = sc.nextInt();
-        start = sc.nextInt();
+        String[] input = br.readLine().split(" ");
+
+        n = Integer.parseInt(input[0]);
+        m = Integer.parseInt(input[1]);
+        r = Integer.parseInt(input[2]);
         visited = new boolean[n + 1];
-        graph = new List[n + 1];
-        rank = new int[n + 1];
+        graph = new ArrayList[n + 1];
         for (int i = 1; i <= n; i++) {
             graph[i] = new ArrayList<>();
         }
 
         for (int i = 0; i < m; i++) {
-            int u = sc.nextInt();
-            int v = sc.nextInt();
-            graph[u].add(v);
-            graph[v].add(u);
+            String[] nodeInput = br.readLine().split(" ");
+            int start = Integer.parseInt(nodeInput[0]) ;
+            int end = Integer.parseInt(nodeInput[1]) ;
+
+            graph[start].add(end);
+            graph[end].add(start);
         }
+
         for (int i = 1; i <= n; i++) {
             graph[i].sort(Comparator.naturalOrder());
         }
-    }
 
-    static void solve() throws IOException {
-        rank[start] = 1;
-        bfs();
+        result = new Integer[n + 1];
+//        result[r] = count++;
+        visited[r] = true;
+
+        bfs(r);
 
         for (int i = 1; i <= n; i++) {
-            bw.write(rank[i]+"\n");
+            if (result[i] == null) {
+                bw.write(0 + "\n");
+            } else {
+                bw.write(result[i] + "\n");
+            }
         }
+
+
+
     }
+    static void solve() throws IOException {
 
-    static void bfs() throws IOException {
 
+
+    }
+    static void bfs(int node) {
         Queue<Integer> q = new LinkedList<>();
-        q.add(start);
+        q.add(node);
+        visited[node] = true;
 
         while (!q.isEmpty()) {
-            int nextNode = q.poll();
 
-            if (!visited[nextNode]) {
-                visited[nextNode] = true;
-                rank[nextNode] = rankCount;
-                rankCount++;
-                for (int nearNode : graph[nextNode]) {
-                    q.add(nearNode);
+            int nodeIndex = q.poll();
+            result[nodeIndex] = count++;
+
+            for (int adjNode : graph[nodeIndex]) {
+                if (!visited[adjNode]) {
+                    visited[adjNode] = true;
+                    q.add(adjNode);
                 }
             }
         }
 
+
     }
 
+
+
+
+
+
+
 }
+
+
