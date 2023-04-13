@@ -1,30 +1,24 @@
+
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 
 public class Main {
 
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    static int n,m,r;
 
-
-    /*
-    dfs , 시작정점에서 시작해서 dfs를 하고
-    각 정점에 대하여 몇번째 방문되는지를 출력, 시작정점에서 dfs했는데 도착못하는 정점이면 0을 출력
-     */
-
+    static List<Integer>[] graph;
     static boolean[] visited;
-    static int n,m,start;
-    static ArrayList<Integer>[] graph ; // 그래프용 리스트배열
-
-    static int[] rank = new int[100001];
-    static int rankCount = 2;
-
-
+    static Integer[] result;
+    static int count =1;
     public static void main(String[] args) throws IOException {
-
         input();
         solve();
 
@@ -34,53 +28,73 @@ public class Main {
     }
 
     static void input() throws IOException {
-        int[] input = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
-        n = input[0];
-        m = input[1];
-        start = input[2];
-        graph = new ArrayList[n+1];
+        String[] input = br.readLine().split(" ");
+
+        n = Integer.parseInt(input[0]);
+        m = Integer.parseInt(input[1]);
+        r = Integer.parseInt(input[2]);
         visited = new boolean[n + 1];
-        for (int a = 1; a <= n; a++) {
-            graph[a] = new ArrayList<>();
-        }
-        for (int i = 0; i < m; i++) {
-            input = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
-            graph[input[0]].add(input[1]);
-            graph[input[1]].add(input[0]);
-        }
-        for (int a = 1; a <= n; a++) {
-            graph[a].sort(Comparator.naturalOrder());
-        }
-
-    }
-
-    static void solve() throws IOException {
-        rank[start] = 1;
-        visited[start] = true;
-
-        dfs(start);
-        
+        graph = new ArrayList[n + 1];
         for (int i = 1; i <= n; i++) {
-            if (rank[i] == 0) {
-                bw.write(0+"\n");
-                continue;
-            }
-            bw.write(rank[i]+"\n");
+            graph[i] = new ArrayList<>();
         }
+
+        for (int i = 0; i < m; i++) {
+            String[] nodeInput = br.readLine().split(" ");
+            int start = Integer.parseInt(nodeInput[0]) ;
+            int end = Integer.parseInt(nodeInput[1]) ;
+
+            graph[start].add(end);
+            graph[end].add(start);
+        }
+
+        for (int i = 1; i <= n; i++) {
+            graph[i].sort(Comparator.naturalOrder());
+        }
+
+        result = new Integer[n + 1];
+        result[r] = count++;
+        visited[r] = true;
+
+        dfs(r);
+
+        for (int i = 1; i <= n; i++) {
+            if (result[i] == null) {
+                bw.write(0 + "\n");
+            } else {
+                bw.write(result[i] + "\n");
+            }
+        }
+
+
+
+    }
+    static void solve() throws IOException {
+
+
 
     }
 
-    static void dfs(int node) throws IOException {
+    static void dfs(int node) {
 
-        for (int nearNode : graph[node]) {
-            if (!visited[nearNode]) {
-                visited[nearNode] = true;
-                rank[nearNode] = rankCount;
-                rankCount++;
-                dfs(nearNode);
+        for (int adjNode : graph[node]) {
+            if (!visited[adjNode]) {
+                visited[adjNode] = true;
+                result [adjNode] = count++;
+
+                dfs(adjNode);
+
             }
         }
 
+
     }
+
+
+
+
+
 
 }
+
+
