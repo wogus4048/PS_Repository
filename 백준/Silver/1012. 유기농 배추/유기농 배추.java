@@ -1,5 +1,3 @@
-
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -52,8 +50,10 @@ public class Main {
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < m; j++) {
                     if (map[i][j] == 1) {
-                        bfs(new Node(i, j));
-//                    dfs(i,j);
+//                        bfs(new Node(i, j));
+                    dfs(i,j);
+                    map[i][j] = 0;
+                    count++;
 //                        result.add(count);
 
                     }
@@ -73,13 +73,12 @@ public class Main {
     }
 
     static void dfs(int i, int j) {
-        count++;
 
         for (int a = 0; a < 4; a++) {
             int nextI = i + dy[a];
             int nextJ = j + dx[a];
 
-            if (nextI >= 0 && nextI < n && nextJ >= 0 && nextJ < n) {
+            if (nextI >= 0 && nextI < n && nextJ >= 0 && nextJ < m) {
                 if (map[nextI][nextJ] == 1) {
                     map[nextI][nextJ] = 0;
 //                    System.out.print("nextJ = " + nextJ);
