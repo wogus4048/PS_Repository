@@ -1,25 +1,26 @@
-import java.io.*;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
+
+import java.io.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
 
 public class Main {
-
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
+    static int n,m;
+    static Map<Integer,Integer> map = new HashMap<>();
 
-    /*
-    Map에 숫자,갯수 를 저장해놓고 , ContainsKey를 이용하여 풀어본다.
-
-     */
-    static int n;
-    static int m;
-    static Map<Integer, Integer> map = new HashMap<>();
 
     public static void main(String[] args) throws IOException {
-
         input();
         solve();
 
@@ -29,26 +30,34 @@ public class Main {
     }
 
     static void input() throws IOException {
-        n = Integer.parseInt(br.readLine());
-        String[] nInput = br.readLine().split(" ");
-        for (int i = 0; i < n; i++) {
-            int currentNumber = Integer.parseInt(nInput[i]);
-            map.put(currentNumber, map.getOrDefault(currentNumber, 0) + 1);
-        }
+
 
     }
-
     static void solve() throws IOException {
+
+        n = Integer.parseInt(br.readLine());
+        String[] input = br.readLine().split(" ");
+
+        for (int i = 0; i < n; i++) {
+            map.put(Integer.parseInt(input[i]), map.getOrDefault(Integer.parseInt(input[i]), 0) + 1);
+        }
+
         m = Integer.parseInt(br.readLine());
-        String[] nInput = br.readLine().split(" ");
+        String[] input2 = br.readLine().split(" ");
+
         for (int i = 0; i < m; i++) {
-            if (map.get(Integer.parseInt(nInput[i])) != null) {
-                bw.write(map.get(Integer.parseInt(nInput[i])) + " ");
+            if (map.containsKey(Integer.parseInt(input2[i]))) {
+                bw.write(map.get(Integer.parseInt(input2[i]))+" ");
             } else {
                 bw.write(0+" ");
             }
         }
 
+
     }
 
+
+
 }
+
+
