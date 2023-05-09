@@ -1,34 +1,63 @@
+
+
 import java.io.*;
 import java.lang.reflect.Array;
-import java.util.*;
-import java.util.Map.Entry;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
 
 public class Main {
-
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
 
+    static int testcase;
+
     public static void main(String[] args) throws IOException {
-        int n = Integer.parseInt(br.readLine());
-        for (int i = 0; i < n; i++) {
-            int sum =1; //결과를 저장할 변수
-            Map<String, Integer> result = new HashMap<>();
-            int num = Integer.parseInt(br.readLine());
-            for (int j = 0; j < num; j++) {
-                String[] input = br.readLine().split(" ");
-                result.put(input[1], result.getOrDefault(input[1], 0) + 1);
-            }
-            //입고 안입고에 대한 모든 경우를 생각  - 모두 안입는경우인 1개의 경우 빼주기
-            for (int value : result.values()) {
-                sum *= (value + 1);
-            }
-            bw.write(sum-1+"\n");
-        }
+        input();
+        solve();
 
         bw.flush();
         bw.close();
 
     }
 
+    static void input() throws IOException {
+
+
+
+    }
+    static void solve() throws IOException {
+        testcase = Integer.parseInt(br.readLine());
+        for (int i = 0; i < testcase; i++) {
+            Map<String, Integer> map = new HashMap<>();
+            int n = Integer.parseInt(br.readLine());
+
+            for (int j = 0; j < n; j++) {
+                String category = br.readLine().split(" ")[1];
+
+                map.put(category, map.getOrDefault(category, 0) + 1);
+            }
+
+            int result =1;
+            for (String key : map.keySet()) {
+                result *= (map.get(key) + 1);
+            }
+            System.out.println(result - 1);
+
+        }
+
+    }
+
+
+
+
 }
+
+
