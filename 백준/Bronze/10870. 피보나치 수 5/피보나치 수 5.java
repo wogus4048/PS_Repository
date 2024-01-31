@@ -1,5 +1,3 @@
-
-
 import java.io.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -21,8 +19,7 @@ public class Main {
 
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-
-
+    static int[] memoization;
 
 
 
@@ -42,25 +39,41 @@ public class Main {
 
     static void solve() throws IOException {
         int n = Integer.parseInt(br.readLine());
-        int result = fibo(n);
+        memoization = new int[n+1];
+        Arrays.fill(memoization, -1);
+//        bottomUp(n);
 
-        System.out.println(result);
+        if (n == 0) {
+            System.out.println(0);
+            return;
+        }
+        if (n == 1) {
+            System.out.println(1);
+            return;
+        }
+        memoization[0] = 0;
+        memoization[1] = 1;
+        topDown(n);
+        System.out.println(memoization[n]);
+
+
     }
 
-    static int fibo(int n) {
-        if (n == 0 ) {
-            return 0;
-        }
-        if (n == 1 ) {
-            return 1;
+    static void bottomUp(int n) {
+
+        for (int i = 2; i <= n; i++) {
+            memoization[i] = memoization[i - 1] + memoization[i - 2];
         }
 
-        return fibo(n - 1) + fibo(n - 2);
     }
 
+    static int topDown(int n) {
 
-
-
+        if (memoization[n] == -1) {
+            memoization[n] = topDown(n - 1) + topDown(n - 2);
+        }
+        return memoization[n];
+    }
 
 
 
